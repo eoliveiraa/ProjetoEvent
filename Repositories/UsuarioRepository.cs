@@ -7,19 +7,35 @@ namespace Event_.Repositories
 {
     public class UsuarioRepository : IUsuarioRepository
     {
+        private readonly Event_Context? _context;
 
-        private readonly Event_Context _Context;
+        public UsuarioRepository(Event_Context context)
+        {
+            _context = context;
+        }
 
         public Usuario BuscarPorEmailESenha(string email, string senha)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                Usuario usuarioBuscado = _context?.Usuario.FirstOrDefault(u => u.Email == email)!;
+                
+
+                return null!;
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
         public Usuario BuscarPorId(Guid id)
         {
             try
             {
-                Usuario usuarioBuscado = _Context.Usuario.Find(id)!;
+                Usuario usuarioBuscado = _context?.Usuario.Find(id)!;
 
                 if (usuarioBuscado != null)
                 {
@@ -34,9 +50,21 @@ namespace Event_.Repositories
             }
         }
 
-        public void Cadastrar(Usuario novousuario)
+        public void Cadastrar(Usuario novoUsuario)
         {
-            throw new NotImplementedException();
+
+            try
+            {
+                novoUsuario.Senha = novoUsuario.Senha!;
+
+                _context?.Usuario.Add(novoUsuario);
+                _context?.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
     }
 }

@@ -2,7 +2,7 @@
 
 namespace Event_.Interfaces
 {
-    public interface ITiposEventosReporitory
+    public interface ITiposEventosRepository
     {
         void Cadastrar (TiposEventos tiposEventos);
 
