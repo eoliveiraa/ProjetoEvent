@@ -12,25 +12,5 @@ namespace Event_.Interfaces
 
         void Deletar (Guid IdComentario);
 
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
-
     }
 }

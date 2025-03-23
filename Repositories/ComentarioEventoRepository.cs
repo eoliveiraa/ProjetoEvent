@@ -5,7 +5,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Event_.Repositories
 {
-    public class ComentarioEventoRepository:IComentarioEventoRepository
+    public class ComentarioEventoRepository : IComentarioEventoRepository
     {
         private readonly Event_Context? _context;
 
@@ -29,17 +29,46 @@ namespace Event_.Repositories
 
         public void Cadastrar(ComentarioEvento comentarioEvento)
         {
-            throw new NotImplementedException();
+            try
+            {
+                _context?.ComentarioEvento.Add(comentarioEvento);
+                _context?.SaveChanges();
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public void Deletar(Guid IdComentario)
+        public void Deletar(Guid ComentarioEventoID)
         {
-            throw new NotImplementedException();
+            try
+            {
+               ComentarioEvento comentarioEvento = _context?.ComentarioEvento.Find()!;
+                if (comentarioEvento != null)
+                {
+                    _context?.ComentarioEvento.Remove(comentarioEvento);
+                }
+                _context?.SaveChanges();
+
+            }
+            catch (Exception)
+            {
+
+                throw;
+            }
         }
 
-        public List<ComentarioEvento> Listar(Guid Id)
+        public List<ComentarioEvento> Listar()
         {
-            throw new NotImplementedException();
+            try
+            {
+                List<ComentarioEvento> ListaComentarioEvento = _context?.ComentarioEvento.ToList()!;
+                return (ListaComentarioEvento);
+            }
+            catch { }
         }
+
     }
 }

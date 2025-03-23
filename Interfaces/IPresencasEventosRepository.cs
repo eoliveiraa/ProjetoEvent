@@ -2,7 +2,7 @@
 
 namespace Event_.Interfaces
 {
-    public interface IPresencasEventos
+    public interface IPresencasEventosRepository
     {
         void Inscrever (PresencasEventos inscricao);
 

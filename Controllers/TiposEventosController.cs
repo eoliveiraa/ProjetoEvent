@@ -60,16 +60,18 @@ namespace Event_.Controllers
             [HttpPost]
             public IActionResult Post(TiposEventos novoTipoEvento)
             {
-                try
-                {
-                    _tiposEventosRepository.Cadastrar(novoTipoEvento);
-                    return Created();
-                }
-                catch (Exception)
-                {
-                    throw;
-                }
+
+            try
+            {
+                _tiposEventosRepository.Cadastrar(novoTipoEvento);
+                return Created();
             }
+            catch (Exception)
+            {
+                throw;
+
+            }
+        }
 
             [HttpDelete("{Id}")]
             public IActionResult Delete(Guid Id)
