@@ -19,11 +19,11 @@ namespace Event_.Controllers
         }
 
         [HttpPost]
-        public IActionResult Post( Evento evento)
+        public IActionResult Post( Evento eventoRepository)
         {
             try
             {
-                _EventosRepository.Cadastrar(evento);
+                _EventosRepository.Cadastrar(eventoRepository);
                 return Created();
             }
             catch (Exception)

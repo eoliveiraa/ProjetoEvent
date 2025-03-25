@@ -18,13 +18,24 @@ namespace Event_.Repositories
         {
             try
             {
-                PresencasEventos presencas = _context.Find(Id);
-                if (presencas != null)
+                PresencasEventos presencaEventoBuscado = _context.PresencasEventos.Find(Id)!;
+
+                if (presencaEventoBuscado != null)
                 {
-                    presencasEventos.PresencasEventoID = presencasEventos.PresencasEventoID;
+                    if (presencaEventoBuscado.Situacao)
+                    {
+                        presencaEventoBuscado.Situacao = false;
+                    }
+                    else
+                    {
+                        presencaEventoBuscado.Situacao = true;
+                    }
 
                 }
-                _context?.SaveChanges();
+
+                _context.PresencasEventos.Update(presencaEventoBuscado!);
+
+                _context.SaveChanges();
             }
             catch (Exception)
             {
@@ -38,8 +49,27 @@ namespace Event_.Repositories
         {
             try
             {
-                PresencasEventos presencaBuscada = _context?.PresencasEventos.Find(Id)!;
-                return presencaBuscada;
+                return _context.PresencasEventos
+                    .Select(p => new PresencasEventos
+                    {
+                        PresencasEventoID = p.PresencasEventoID,
+                        Situacao = p.Situacao,
+
+                        eventos = new Evento
+                        {
+                            EventoID = p.EventoID!,
+                            DataEvento = p.eventos!.DataEvento,
+                            NomeEvento = p.eventos.NomeEvento,
+                            Descricao = p.eventos.Descricao,
+
+                            instituicao = new Instituicoes
+                            {
+                                InstituicoesID = p.eventos.instituicao!.InstituicoesID,
+                                NomeFantasia = p.eventos.instituicao!.NomeFantasia
+                            }
+                        }
+
+                    }).FirstOrDefault(p => p.PresencasEventoID == Id)!;
             }
             catch (Exception)
             {
@@ -71,7 +101,12 @@ namespace Event_.Repositories
         {
             try
             {
-            
+
+                inscricao.PresencasEventoID = Guid.NewGuid();
+
+                _context.PresencasEventos.Add(inscricao);
+
+                _context.SaveChanges();
 
             }
             catch
@@ -84,8 +119,27 @@ namespace Event_.Repositories
         {
             try
             {
-                List<PresencasEventos> ListapresencasEventos = _context.PresencasEventos.ToList();
-                return (ListapresencasEventos);
+                return _context!.PresencasEventos
+                    .Select(p => new PresencasEventos
+                    {
+                        PresencasEventoID = p.PresencasEventoID,
+                        Situacao = p.Situacao,
+
+                        eventos = new Evento
+                        {
+                            EventoID = p.EventoID,
+                            DataEvento = p.eventos!.DataEvento,
+                            NomeEvento = p.eventos.NomeEvento,
+                            Descricao = p.eventos.Descricao,
+
+                            instituicao = new Instituicoes
+                            {
+                                InstituicoesID = p.eventos.instituicao!.InstituicoesID,
+                                NomeFantasia = p.eventos.instituicao!.NomeFantasia
+                            }
+                        }
+
+                    }).ToList();
             }
             catch (Exception)
             {
@@ -95,15 +149,31 @@ namespace Event_.Repositories
 
         public List<PresencasEventos> ListarMinhas(Guid Id)
         {
-            try
-            {
-                List<PresencasEventos> ListaMinhas = _context.PresencasEventos.ToList()!;
-                return (ListaMinhas);
-            }
-            catch (Exception)
-            {
-                throw;
-            }
+            return _context!.PresencasEventos
+                .Select(p => new PresencasEventos
+                {
+                    PresencasEventoID = p.PresencasEventoID,
+                    Situacao = p.Situacao,
+                    UsuarioID = p.UsuarioID,
+                    EventoID = p.EventoID,
+
+                    eventos = new Evento
+                    {
+                        EventoID = p.EventoID,
+                        DataEvento = p.eventos!.DataEvento,
+                        NomeEvento = p.eventos!.NomeEvento,
+                        Descricao = p.eventos!.Descricao,
+
+                        instituicao = new Instituicoes
+                        {
+                            InstituicoesID = p.eventos.InstituicoesID,
+                        }
+
+                    }
+                })
+
+                .Where(p => p.UsuarioID == Id)
+                .ToList();
 
         }
     }

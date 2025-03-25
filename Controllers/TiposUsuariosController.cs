@@ -33,22 +33,21 @@ namespace Event_.Controllers
             }
         }
 
-        [HttpGet("{Id}")]
-        public IActionResult Get(Guid Id)
+        [HttpGet("BuscarPorId/{Id}")]
+        public IActionResult GetById(Guid Id)
         {
             try
             {
-                TiposUsuarios usuarioBuscado = _tiposUsuariosRepository.BuscarPorID(Id);
-                if (usuarioBuscado != null)
-                {
-                    return Ok(usuarioBuscado);
 
-                }
+                TiposUsuarios usuarioBuscado = _tiposUsuariosRepository.BuscarPorID(Id);
+
+               return Ok(usuarioBuscado);
+
             }
-            catch (Exception)
+            catch (Exception e)
             {
 
-                throw;
+                return BadRequest(e.Message);
             }
         }
 
@@ -59,6 +58,7 @@ namespace Event_.Controllers
             try
             {
                 _tiposUsuariosRepository.Cadastrar(novoTipoUsuario);
+
                 return Created();
             }
             catch (Exception)

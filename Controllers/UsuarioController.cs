@@ -41,21 +41,23 @@ namespace Event_.Controllers
         }
 
         [HttpGet("{id}")]
-        public IActionResult Get(Guid id)
+        public IActionResult GetById(Guid id)
         {
             try
             {
                 Usuario usuarioBuscado = _UsuarioRepository.BuscarPorId(id);
+
+
                 if (usuarioBuscado != null)
                 {
-                    return Ok(usuarioBuscado); 
-                    
+                    return Ok(usuarioBuscado);
                 }
-            }
-            catch (Exception)
-            {
 
-                throw;
+                return null!;
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
             }
         }
 
@@ -65,7 +67,7 @@ namespace Event_.Controllers
             try
             {
                 _UsuarioRepository.Cadastrar(novoUsuario);
-                return Created();
+                return StatusCode(201, novoUsuario);
             }
             catch (Exception)
             {

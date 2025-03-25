@@ -17,14 +17,23 @@ namespace Event_.Controllers
             _ComentarioEventoRepository = comentarioEventoRepository;
         }
 
-        [HttpGet("{Id}")]
-        public IActionResult Get(Guid UsuarioID, Guid EventoID)
+        [HttpGet("BuscarPorIdDoUsuario/{UsuarioID},{EventoID}")]
+        public IActionResult GetById(Guid UsuarioID, Guid EventoID)
         {
-           
-        }
+            try
+            {
+               ComentarioEvento comentarioBuscado = _ComentarioEventoRepository.BuscarPorIdDoUsuario(UsuarioID, EventoID);
+                return Ok(comentarioBuscado);
 
+
+            }
+            catch (Exception e)
+            {
+                return BadRequest(e.Message);
+            }
+        }
         [HttpPost]
-        public IActionResult Post(ComentarioEventoRepository comentarioEvento)
+        public IActionResult Post(ComentarioEvento comentarioEvento)
         {
 
             try
@@ -59,6 +68,7 @@ namespace Event_.Controllers
             try
             {
                 List<ComentarioEvento> ListarComentarioEvento = _ComentarioEventoRepository.Listar(Id);
+                return Ok(ListarComentarioEvento);
             }
             catch (Exception)
             {

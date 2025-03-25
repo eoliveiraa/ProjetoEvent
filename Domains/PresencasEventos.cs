@@ -22,5 +22,8 @@ namespace Event_.Domains
 
         [ForeignKey("UsuarioID")]
         public Usuario? usuario { get; set; }
+
+
+
     }
 }

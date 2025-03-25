@@ -72,30 +72,32 @@ namespace Event_.Controllers
                 List<PresencasEventos> ListaMinhas = _presencasEventosRepository.ListarMinhas(Id);
                 return Ok(ListaMinhas);
             }
-            catch(Exception)
+            catch (Exception)
             {
                 throw;
 
             }
+        }
 
-            [HttpGet("BuscarPorId{Id}")]
-
-            public IActionResult Get(Guid Id)
+            [HttpGet("BuscarPorId/{id}")]
+            public IActionResult GetById(Guid id)
             {
 
                 try
                 {
-                    PresencasEventos presencaBuscada = _presencasEventosRepository.BuscarPorId(Id);
-                    return Ok(presencaBuscada);
+                    PresencasEventos novaPresenca = _presencasEventosRepository.BuscarPorId(id);
+                    return Ok(novaPresenca);
                 }
-                catch (Exception e)
+                catch (Exception error)
                 {
-                    return BadRequest(e.Message);
+                    return BadRequest(error.Message);
                 }
-
             }
+
+
 
         }
 
     }
-}
+
+

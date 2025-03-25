@@ -24,7 +24,7 @@ namespace Event_.Domains
         public Guid TiposEventosID { get; set; }
 
         [ForeignKey("TiposEventosID")]
-        public TiposEventos? tipoevento { get; set; }
+        public TiposEventos? TipoEvento { get; set; }
 
         public Guid InstituicoesID { get; set; }
 
@@ -32,6 +32,6 @@ namespace Event_.Domains
 
         public Instituicoes? instituicao { get; set; }
 
-        public PresencasEventos? presencasEventos { get; set;}
+        public PresencasEventos? PresencasEventos { get; set; }
     }
 }

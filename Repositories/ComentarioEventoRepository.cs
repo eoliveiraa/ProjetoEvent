@@ -18,8 +18,26 @@ namespace Event_.Repositories
         {
             try
             {
-                ComentarioEvento ComentarioEventoBuscado = _context.ComentarioEvento.Find(EventoID)!;
-                return ComentarioEventoBuscado;
+                return _context.ComentarioEvento
+                    .Select(c => new ComentarioEvento
+                    {
+                        ComentarioEventoID = c.ComentarioEventoID,
+                        Descricao = c.Descricao,
+                        Exibe = c.Exibe,
+                        UsuarioID = c.UsuarioID,
+                        EventoID = c.EventoID,
+
+                        usuario = new Usuario
+                        {
+                            NomeUsuario = c.usuario!.NomeUsuario
+                        },
+
+                        evento = new Evento
+                        {
+                            NomeEvento = c.evento!.NomeEvento,
+                        }
+
+                    }).FirstOrDefault(c => c.UsuarioID == UsuarioID && c.EventoID == EventoID)!;
             }
             catch (Exception)
             {
@@ -27,12 +45,16 @@ namespace Event_.Repositories
             }
         }
 
+
         public void Cadastrar(ComentarioEvento comentarioEvento)
         {
             try
             {
-                _context?.ComentarioEvento.Add(comentarioEvento);
-                _context?.SaveChanges();
+                comentarioEvento.ComentarioEventoID = Guid.NewGuid();
+
+                _context.ComentarioEvento.Add(comentarioEvento);
+
+                _context.SaveChanges();
             }
             catch (Exception)
             {
@@ -45,13 +67,15 @@ namespace Event_.Repositories
         {
             try
             {
-               ComentarioEvento comentarioEvento = _context?.ComentarioEvento.Find()!;
-                if (comentarioEvento != null)
-                {
-                    _context?.ComentarioEvento.Remove(comentarioEvento);
-                }
-                _context?.SaveChanges();
+                ComentarioEvento comentarioEventoBuscado = _context.ComentarioEvento.Find(ComentarioEventoID)!;
 
+                if (comentarioEventoBuscado != null)
+                {
+                    _context.ComentarioEvento.Remove(comentarioEventoBuscado);
+                }
+
+
+                _context.SaveChanges();
             }
             catch (Exception)
             {
@@ -60,15 +84,40 @@ namespace Event_.Repositories
             }
         }
 
-        public List<ComentarioEvento> Listar()
+        public List<ComentarioEvento> Listar(Guid id)
         {
             try
             {
-                List<ComentarioEvento> ListaComentarioEvento = _context?.ComentarioEvento.ToList()!;
-                return (ListaComentarioEvento);
+                return _context.ComentarioEvento
+                    .Select(c => new ComentarioEvento
+                    {
+                        ComentarioEventoID = c.ComentarioEventoID,
+                        Descricao = c.Descricao,
+                        Exibe = c.Exibe,
+                        UsuarioID = c.UsuarioID,
+                        EventoID = c.EventoID,
+
+                        usuario = new Usuario
+                        {
+                            NomeUsuario = c.usuario!.NomeUsuario
+                        },
+
+                        evento = new Evento
+                        {
+                            NomeEvento = c.evento!.NomeEvento,
+                        }
+
+                    }).Where(c => c.EventoID == id).ToList();
             }
-            catch { }
+            catch (Exception)
+            {
+
+                throw;
+            }
+
         }
+    
+
 
     }
 }

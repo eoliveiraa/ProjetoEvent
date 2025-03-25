@@ -17,7 +17,23 @@ namespace Event_.Repositories
 
         public void Atualizar(Guid Id, TiposUsuarios tiposUsuarios)
         {
-            throw new NotImplementedException();
+            try
+            {
+                TiposUsuarios tipoBuscado = _context.TiposUsuarios.Find(Id)!;
+
+                if (tipoBuscado != null)
+                {
+                    tipoBuscado.TituloTipoUsuario = tiposUsuarios.TituloTipoUsuario;
+                }
+
+                _context.TiposUsuarios.Update(tipoBuscado!);
+
+                _context.SaveChanges();
+            }
+            catch (Exception)
+            {
+                throw;
+            }
         }
 
         public TiposUsuarios BuscarPorID(Guid Id)
@@ -43,12 +59,13 @@ namespace Event_.Repositories
         {
             try
             {
-                tiposUsuarios.TituloTipoUsuario = tiposUsuarios.TituloTipoUsuario;
+                tiposUsuarios.TiposUsuariosID = Guid.NewGuid();
 
-                _context?.TiposUsuarios.Add(tiposUsuarios);
+                _context.TiposUsuarios.Add(tiposUsuarios);
 
-                _context?.SaveChanges();
+                _context.SaveChanges();
             }
+
             catch (Exception)
             {
 
@@ -60,13 +77,16 @@ namespace Event_.Repositories
         {
             try
             {
-                TiposUsuarios tipoUsuarioBuscado = _context?.TiposUsuarios.Find(Id)!;
-                if (tipoUsuarioBuscado != null)
-                {
-                    _context?.TiposUsuarios.Remove(tipoUsuarioBuscado);
-                }
-                _context?.SaveChanges();
+                TiposUsuarios tipoBuscado = _context.TiposUsuarios.Find(Id)!;
 
+                if (tipoBuscado != null)
+                {
+                    _context.TiposUsuarios.Remove(tipoBuscado);
+
+                }
+
+
+                _context.SaveChanges();
             }
             catch (Exception)
             {
@@ -79,8 +99,7 @@ namespace Event_.Repositories
         {
             try
             {
-                List<TiposUsuarios> ListaTiposUsuarios = _context?.TiposUsuarios.ToList()!;
-                return ListaTiposUsuarios;
+                return _context.TiposUsuarios.ToList();
             }
             catch (Exception)
             {

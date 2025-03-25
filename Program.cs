@@ -5,6 +5,7 @@ using Event_.Repositories;
 using Microsoft.AspNetCore.Mvc.Filters;
 using Microsoft.EntityFrameworkCore;
 using Microsoft.IdentityModel.Tokens;
+using webapi.event_.Repositories;
 
 var builder = WebApplication.CreateBuilder(args);
 
@@ -27,7 +28,14 @@ builder.Services.AddDbContext<Event_Context>(options =>
 //adicionar o repósitorio e a interface ao container de injeção de depêndencia
 builder.Services.AddScoped<ITiposUsuariosRepository, TiposUsuariosRepository>();
 builder.Services.AddScoped<ITiposEventosRepository, TiposEventosRepository>();
-builder.Services.AddScoped<IUsuarioRepository, UsuarioRepository>();
+builder.Services.AddScoped<IUsuarioRepository,UsuariosRepository>();
+builder.Services.AddScoped<IEventoRepository, EventoRepository>();
+builder.Services.AddScoped<IComentarioEventoRepository, ComentarioEventoRepository>();
+builder.Services.AddScoped<IPresencasEventosRepository,PresencasEventosRepository>();
+
+
+
+
 
 
 //adicionar o serviço de Controllers

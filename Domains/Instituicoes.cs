@@ -4,7 +4,7 @@ using Microsoft.EntityFrameworkCore;
 
 namespace Event_.Domains
 {
-    [Table("instituicoes")]
+    [Table("Instituicoes")]
     [Index(nameof(CNPJ), IsUnique = true)]   
     public class Instituicoes
     {
